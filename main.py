@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import face_recognition
 import os
-from datetime import datetime
+from datetime import datetime    #importing all the required libraries
 
 path = 'ImagesCompare'
 imagesList = []
@@ -13,8 +13,8 @@ print(myList)
 for cl in myList:
     curImg = cv2.imread(f'{path}/{cl}')
     imagesList.append(curImg)
-    classNames.append(os.path.splitext(cl)[0])
-print(classNames)
+    classNames.append(os.path.splitext(cl)[0]) 
+print(classNames)                                            #adding all the photos in a form of list
 
 def findEncodings(imagesList):
     encodeList=[]
@@ -22,7 +22,7 @@ def findEncodings(imagesList):
         img =cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         encode = face_recognition.face_encodings(img)[0]
         encodeList.append(encode)
-    return encodeList
+    return encodeList                                       #finding the enconding values of the images
 
 def markName(name):
     with open('Record.csv', 'r+') as f:
@@ -34,7 +34,7 @@ def markName(name):
         if name not in nameList:
             now = datetime.now()
             dtString = now.strftime('%H:%M:%S')
-            f.writelines(f'\n{name},{dtString}')
+            f.writelines(f'\n{name},{dtString}')           #function to print the name and time when recognised
 
 encodeListKnown=findEncodings(imagesList)
 print('Encoding complete')
@@ -63,7 +63,7 @@ while True:
             y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.rectangle(img, (x1, y2-35), (x2, y2), (0, 255, 0), cv2.FILLED)
-            cv2.putText(img, name, (x1+6, y2-6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+            cv2.putText(img, name, (x1+6, y2-6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)    #comparing the current user face with the faces we already have
             markName(name)
 
 
